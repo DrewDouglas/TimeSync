@@ -1,19 +1,23 @@
 #ifndef COMPUTER
 #define COMPUTER
-#include <stdlib>
+#include <cstdlib>
+#include <vector>
+#include <tuple>
 #include "sensor.h"
+
+class Sensor;
 
 class Computer
 {
 
 public:
-
+	Computer();
 
 private:
 
 	int id;
-	std::vector<Computer> computerNeighbors;
-	std::vector<Sensor> sensorNeighbors;
+	std::vector<Computer *> computerNeighbors;
+	std::vector<Sensor *> sensorNeighbors;
 	int master;
 	int isThisDevice;
 	//Clock params from olson's paper
@@ -36,4 +40,4 @@ private:
 	*/
 };
 
-#endif
+#endif /*COMPUTER*/

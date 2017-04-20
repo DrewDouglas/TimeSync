@@ -1,20 +1,21 @@
 #ifndef SENSOR
 #define SENSOR
-#include <stdlib.h>
-#include "computer.h"
+#include <cstdlib>
 #include <vector>
+#include <tuple>
 
+class Computer;
 
 class Sensor 
 {
 
 public:
-
+	Sensor();
 
 private:
 
 	int id;
-	std::vector<Computer> neighbors;
+	std::vector<Computer *> neighbors;
 	//Clock params from olson's paper
 	std::vector<float> sensorTimes;
 	int messageCount;
@@ -48,4 +49,4 @@ sharedMeasurements - list of tuples of (my data column index, other sensor id, o
 */
 };
 
-#endif
+#endif /*SENSOR*/
