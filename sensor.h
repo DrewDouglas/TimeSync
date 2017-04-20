@@ -11,12 +11,14 @@ class Sensor
 
 public:
 	Sensor();
-
-private:
+	Sensor(int _id, float _alphaFast, float _alphaSlow, float _frequency, 
+			   int _timestampPosition, std::string _inputFilename, std::string _outputFilename,
+			   std::vector<Computer *> _neighbors, std::vector<std::string> _valuesMeasured);
 
 	int id;
 	std::vector<Computer *> neighbors;
-	//Clock params from olson's paper
+	float alphaFast;
+	float alphaSlow;
 	std::vector<float> sensorTimes;
 	int messageCount;
 	float frequency;
@@ -29,6 +31,9 @@ private:
 	std::string inputFilename;
 	std::string outputFilename;
 	std::vector<std::tuple<int,int,int, float>> sharedMeasurements;
+
+
+private:
 
 /*
 Explanation of variables:

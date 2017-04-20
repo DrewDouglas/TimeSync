@@ -12,8 +12,8 @@ class Computer
 
 public:
 	Computer();
-
-private:
+	Computer(int _id, int _master, int _isThisDevice, 
+ 					std::vector<Computer *> _computerNeighbors, std::vector<Sensor *> _sensorNeighbors);
 
 	int id;
 	std::vector<Computer *> computerNeighbors;
@@ -25,19 +25,8 @@ private:
 	std::vector<float> offsets;
 	std::vector<float> drift; //?
 
-//Once I have a working class definition going work on reading from xml files
-	//Should make sure to make my constructors in a way that assigns intelligent defaults
-	/*
-	ID
-	Neighbors
-	clock params
-	/master/slave
-	/this device
-	current offset
-	current drift
-	variables measured
+private:
 
-	*/
 };
 
 #endif /*COMPUTER*/
