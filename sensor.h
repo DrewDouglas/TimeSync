@@ -16,12 +16,12 @@ private:
 	int id;
 	std::vector<Computer> neighbors;
 	//Clock params from olson's paper
-	float sensorTime;
+	std::vector<float> sensorTimes;
 	int messageCount;
 	float frequency;
-	float hostRecievedTime;
-	float offset;
-	float drift; //?
+	std::vector<float> hostRecievedTimes;
+	std::vector<float> offsets;
+	std::vector<float> drifts; //?
 	int timestampPosition;
 	std::vector<std::string> valuesMeasured;
 	std::vector<float> dataBuffer;

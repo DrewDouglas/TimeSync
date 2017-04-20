@@ -6,6 +6,8 @@
 #include <iostream>
 #include <string>
 #include <fstream>
+#include "sensor.h"
+#include "computer.h"
 
 int main()
 {

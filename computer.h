@@ -17,9 +17,9 @@ private:
 	int master;
 	int isThisDevice;
 	//Clock params from olson's paper
-	float time;
-	float offset;
-	float drift; //?
+	std::vector<float> times;
+	std::vector<float> offsets;
+	std::vector<float> drift; //?
 
 //Once I have a working class definition going work on reading from xml files
 	//Should make sure to make my constructors in a way that assigns intelligent defaults
