@@ -1,0 +1,19 @@
+<Sensor>
+    <id>1</id>
+    <list>
+        <computerID>1</computerID>
+        <computerID>2</computerID>
+    </list>
+    <alphaFast>0.05</alphaFast>
+    <alphaSlow>0.05</alphaSlow>
+    <frequency>60</frequency>
+    <timestampPosition>0</timestampPosition>
+    <list>
+        <valueMeasured>"xAcceleration"</valueMeasured>
+        <valueMeasured>"yAcceleration"</valueMeasured>
+        <valueMeasured>"zAcceleration"</valueMeasured>
+    </list>
+    <inputFile>"sensor1_input"</inputFile>
+    <outputFile>"sensor1_adjusted_times"</outputFile>
+    <processOnCurDevice>1</processOnCurDevice>
+</Sensor>

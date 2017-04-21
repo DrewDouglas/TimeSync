@@ -13,7 +13,7 @@ public:
 	Sensor();
 	Sensor(int _id, float _alphaFast, float _alphaSlow, float _frequency, 
 			   int _timestampPosition, std::string _inputFilename, std::string _outputFilename,
-			   std::vector<Computer *> _neighbors, std::vector<std::string> _valuesMeasured);
+			   std::vector<Computer *> _neighbors, std::vector<std::string> _valuesMeasured, int _processOnCurDevice);
 
 	int id;
 	std::vector<Computer *> neighbors;
@@ -28,10 +28,14 @@ public:
 	int timestampPosition;
 	std::vector<std::string> valuesMeasured;
 	std::vector<float> dataBuffer;
+	int processOnCurDevice;
 	std::string inputFilename;
 	std::string outputFilename;
 	std::vector<std::tuple<int,int,int, float>> sharedMeasurements;
 
+
+//NOTE -- need to place restrictions on inputFile and outputFile based on the local cpu
+//Assume that each cpu has runs their 
 
 private:
 
@@ -39,6 +43,8 @@ private:
 Explanation of variables:
 id - id of the sensor or computer
 neighbors - list of all neighbors that this sensor reports to
+alphaFast - upper bound on positive clock skew increase in one timestep (as a percent)
+alphaSlow - upper bond on negative clock skew increase in one timestep (as a percent)
 sensorTime - the computed sensor time from messageCount and frequency - in general I am going to trust hostRecievedTime over this value 
 messageCount - number of measurements received
 frequency - how often the sensor delivers messages

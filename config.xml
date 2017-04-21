@@ -1,10 +1,85 @@
 <Config>
+    <stateInputFile>"state_file"</stateInputFile>
+    <List itemCount="1">
+        <stateVar>"xAcceleration"</stateVar>
+        <stateVar>"yAcceleration"</stateVar>
+        <stateVar>"zAcceleration"</stateVar>
+    </List>
+
+    <unobservabilityIndexThreshold>10</unobservabilityIndexThreshold>
+    <conditionNumberThreshold>10</conditionNumberThreshold>
+
     <List itemCount="2">
         <Sensor>
             <id>1</id>
+            <list>
+                <computerID>1</computerID>
+                <computerID>2</computerID>
+            </list>
+            <alphaFast>0.05</alphaFast>
+            <alphaSlow>0.05</alphaSlow>
+            <frequency>60</frequency>
+            <timestampPosition>0</timestampPosition>
+            <list>
+                <valueMeasured>"xAcceleration"</valueMeasured>
+                <valueMeasured>"yAcceleration"</valueMeasured>
+                <valueMeasured>"zAcceleration"</valueMeasured>
+            </list>
+            <inputFile>"sensor1_input"</inputFile>
+            <outputFile>"sensor1_adjusted_times"</outputFile>
+            <processOnCurDevice>1</processOnCurDevice>
         </Sensor>
+
         <Sensor>
             <id>2</id>
+            <list>
+                <computerID>1</computerID>
+                <computerID>2</computerID>
+            </list>
+            <alphaFast>0.05</alphaFast>
+            <alphaSlow>0.05</alphaSlow>
+            <frequency>60</frequency>
+            <timestampPosition>0</timestampPosition>
+            <list>
+                <valueMeasured>"xAcceleration"</valueMeasured>
+                <valueMeasured>"yAcceleration"</valueMeasured>
+                <valueMeasured>"zAcceleration"</valueMeasured>
+            </list>
+            <inputFile>"sensor2_input"</inputFile>
+            <outputFile>"sensor2_adjusted_times"</outputFile>
+            <processOnCurDevice>1</processOnCurDevice>
         </Sensor>
+
     </List>
+
+    <List itemCount="2">
+        <Computer>
+            <id>1</id>
+            <list>
+                <computerID>2</computerID>
+                <computerID>3</computerID>
+            </list>
+            <list>
+                <sensorID>4</sensorID>
+                <sensorID>5</sensorID>
+            </list>
+            <master>1</master>
+            <isThisDevice>1</isThisDevice>
+        </Computer>
+
+        <Computer>
+            <id>1</id>
+            <list>
+                <computerID>2</computerID>
+                <computerID>3</computerID>
+            </list>
+            <list>
+                <sensorID>4</sensorID>
+                <sensorID>5</sensorID>
+            </list>
+            <master>1</master>
+            <isThisDevice>1</isThisDevice>
+        </Computer>
+    </List>
+
 </Config>
