@@ -10,19 +10,39 @@
 #endif
 
 #ifndef XMLNullPointerCheck
-    #define XMLNullPointerCheck(pointer) if (pointer == NULL) {std::cout << "Invalid config.xml file\n"}; return -1;
+    #define XMLNullPointerCheck(pointer) if (pointer == NULL) {return -1;}
 #endif
 
 
 int main()
 {
+    std::cout<<"Running \n";
     /************ Load in config file and populate objects ********************/
     using namespace tinyxml2;
     XMLDocument doc;
     XMLError err;
     err = doc.LoadFile( "config.xml");
     XMLCheckResult(err);
+std::cout<<"Hi\n";
     XMLNode * pRoot = doc.FirstChild();
+    std::cout<<"here\n";
+    XMLNullPointerCheck(pRoot);
+std::cout<<"Loaded document\n";
+    XMLElement *listElement = pRoot->FirstChildElement("List");
+    XMLNullPointerCheck(listElement);
+    listElement = listElement->FirstChildElement("Sensor");
+    XMLNullPointerCheck(listElement);
+    XMLElement *curField;
+    while(listElement != NULL)
+    {
+        int id;
+        curField = listElement->FirstChildElement("id");
+        XMLNullPointerCheck(curField);
+        err = curField->QueryIntText(&id);
+        XMLCheckResult(err);
+        std::cout<<"id is: " << id <<"\n";
+        listElement = listElement->NextSiblingElement("Sensor");
+    }
 
 
     return 0;
