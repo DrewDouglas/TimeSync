@@ -1,14 +1,35 @@
-
-
-
-
-//Code to read from a growing file 
 #include <iostream>
 #include <string>
 #include <fstream>
 #include "sensor.h"
 #include "computer.h"
+#include "tinyxml2.h"
 
+#ifndef XMLCheckResult
+    #define XMLCheckResult(a_eResult) if (a_eResult != XML_SUCCESS) { printf("Error processing XML file: %i\n", a_eResult); return a_eResult; }
+#endif
+
+#ifndef XMLNullPointerCheck
+    #define XMLNullPointerCheck(pointer) if (pointer == NULL) {std::cout << "Invalid config.xml file\n"}; return -1;
+#endif
+
+
+int main()
+{
+    /************ Load in config file and populate objects ********************/
+    using namespace tinyxml2;
+    XMLDocument doc;
+    XMLError err;
+    err = doc.LoadFile( "config.xml");
+    XMLCheckResult(err);
+    XMLNode * pRoot = doc.FirstChild();
+
+
+    return 0;
+}
+
+/*
+//Code to read from a growing file 
 int main()
 {
     std::ifstream ifs("test.log");
@@ -29,6 +50,7 @@ int main()
 
     return 0;
 }
+*/
 
 /*
 Globals that need to be take care of:
