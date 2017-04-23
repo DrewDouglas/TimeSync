@@ -13,11 +13,13 @@ class Computer
 public:
 	Computer();
 	Computer(int _id, int _master, int _isThisDevice, 
- 					std::vector<Computer *> _computerNeighbors, std::vector<Sensor *> _sensorNeighbors);
+ 					std::vector<int> _computerNeighbors, std::vector<int> _sensorNeighbors);
 
 	int id;
 	std::vector<Computer *> computerNeighbors;
+	std::vector<int> computerNeighborIDs;
 	std::vector<Sensor *> sensorNeighbors;
+	std::vector<int> sensorNeighborIDs;
 	int master;
 	int isThisDevice;
 	//Clock params from olson's paper

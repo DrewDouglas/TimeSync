@@ -13,10 +13,11 @@ public:
 	Sensor();
 	Sensor(int _id, float _alphaFast, float _alphaSlow, float _frequency, 
 			   int _timestampPosition, std::string _inputFilename, std::string _outputFilename,
-			   std::vector<Computer *> _neighbors, std::vector<std::string> _valuesMeasured, int _processOnCurDevice);
+			   std::vector<int> _neighbors, std::vector<std::string> _valuesMeasured, int _processOnCurDevice);
 
 	int id;
 	std::vector<Computer *> neighbors;
+	std::vector<int> neighborIDs;
 	float alphaFast;
 	float alphaSlow;
 	std::vector<float> sensorTimes;
@@ -31,7 +32,7 @@ public:
 	int processOnCurDevice;
 	std::string inputFilename;
 	std::string outputFilename;
-	std::vector<std::tuple<int,int,int, float>> sharedMeasurements;
+	std::vector<std::tuple<int,Sensor *,int, float>> sharedMeasurements;
 
 
 //NOTE -- need to place restrictions on inputFile and outputFile based on the local cpu
@@ -56,7 +57,7 @@ valuesMeasured - strings describing the state variable(s) that is measured by th
 dataBuffer - holds all measurements made by the sensor
 inputFilename - where the sensor data is written to
 outputFilename - sensor data with adjust timestamp is written t
-sharedMeasurements - list of tuples of (my data column index, other sensor id, other data column index, time offset between streams) - used to compute the phase between measurements of same quantities 
+sharedMeasurements - list of tuples of (my data column index, other sensor pointer, other data column index, time offset between streams) - used to compute the phase between measurements of same quantities 
 */
 };
 

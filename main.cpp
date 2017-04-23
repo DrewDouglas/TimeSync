@@ -20,6 +20,57 @@ std::string getValue(std::string input)
     return input.substr(first+1, last-first-1);
 }
 
+void initializeObjects(std::vector<Sensor> sensors, std::vector<Computer> computers)
+{
+    //Initialize sensor neighbors
+    for (size_t i = 0; i < sensors.size(); i++)
+    {
+        for (size_t j = 0; j < sensors[i].neighborIDs.size(); j++)
+        {
+            for (size_t k = 0; k < computers.size(); k++)
+            {
+                if (computers[k].id == sensors[i].neighborIDs[j])
+                    sensors[i].neighbors.push_back(&computers[k]);
+            }
+        }
+    }
+
+    //Initialize computer neighbors
+    for (size_t i = 0; i < computers.size(); i++)
+    {
+        for (size_t m = 0; m < computers[i].sensorNeighborIDs.size(); m++)
+        {
+            for (size_t p = 0; p < sensors.size(); p++)
+            {
+                if (sensors[p].id == computers[i].sensorNeighborIDs[m])
+                    computers[i].sensorNeighbors.push_back(&sensors[p]);
+            }
+        }
+
+        for (size_t n = 0; n < computers[i].computerNeighborIDs.size(); n++)
+        {
+            for (size_t q = 0; q < computers.size(); q++)
+            {
+                if (computers[q].id == computers[i].computerNeighborIDs[n])
+                    computers[i].computerNeighbors.push_back(&computers[q]);
+            }
+        }
+    }
+
+    //Initialize sharedMeasurements for each sensor
+    for (size_t i = 0; i < sensors.size(); i ++)
+    {
+        for (size_t j = 0; j < sensors.size(); j++)
+        {
+            if (i != j)
+            {
+                //Compare the variables measured by each pair of sensor to fill out sharedMeasurements 
+                
+            }
+        }
+    }
+}
+
 int main()
 {
     //All values that should be read in from the xml file 
@@ -148,6 +199,12 @@ int main()
         XMLCheckResult(err);
 
         curSensor = curSensor->NextSiblingElement("Sensor");
+
+        //Construct the sensor and add it to the list
+        Sensor * newSensor = new Sensor(id, alphaFast, alphaSlow, frequency, timestampPosition, 
+                                        inFile, outFile, neighborIDs, valsMeasured, processOnDevice);
+        sensors.push_back(*newSensor);
+        delete newSensor;
     }
 
     //Read in all computer data
@@ -155,16 +212,13 @@ int main()
     XMLNullPointerCheck(listElement);
     XMLElement * curComputer = listElement->FirstChildElement("Computer");
     XMLNullPointerCheck(curComputer);
-//Go through and change everything to be correct to computer and not sensor 
-    while(curSensor != NULL)
+    //Go through and change everything to be correct to computer and not sensor 
+    while(curComputer != NULL)
     {
-        int id, timestampPosition, processOnDevice, temp;
-        std::vector<int> neighborIDs;
-        float alphaFast, alphaSlow, frequency;
-        std::vector<std::string> valsMeasured;
-        std::string inFile, outFile;
+        int id, master, thisDevice, temp;
+        std::vector<int> computerNeighborIDs, sensorNeighborIDs;
 
-        curField = curSensor->FirstChildElement("id");
+        curField = curComputer->FirstChildElement("id");
         XMLNullPointerCheck(curField);
         curField->QueryIntText(&id);
 
@@ -175,64 +229,49 @@ int main()
         while(cpuID != NULL)
         {
             cpuID->QueryIntText(&temp);
-            neighborIDs.push_back(temp);
+            computerNeighborIDs.push_back(temp);
             cpuID = cpuID->NextSiblingElement("computerID");
         }
 
-        curField = curField->NextSiblingElement("alphaFast");
-        XMLNullPointerCheck(curField);
-        curField->QueryFloatText(&alphaFast);
-
-        curField = curField->NextSiblingElement("alphaSlow");
-        XMLNullPointerCheck(curField);
-        curField->QueryFloatText(&alphaSlow);
-
-        curField = curField->NextSiblingElement("frequency");
-        XMLNullPointerCheck(curField);
-        curField->QueryFloatText(&frequency);
-
-        curField = curField->NextSiblingElement("timestampPosition");
-        XMLNullPointerCheck(curField);
-        curField->QueryIntText(&timestampPosition);
-
         curField = curField->NextSiblingElement("List");
         XMLNullPointerCheck(curField);
-        XMLElement * valMeas = curField->FirstChildElement("valueMeasured");
-        XMLNullPointerCheck(valMeas);
-        while(valMeas != NULL)
+        XMLElement * sensorID = curField->FirstChildElement("sensorID");
+        XMLNullPointerCheck(sensorID);
+        while(sensorID != NULL)
         {
-            valMeas->Accept(&printer);
-            valsMeasured.push_back(getValue(printer.CStr()));
-            printer.ClearBuffer();
-            valMeas = valMeas->NextSiblingElement("valueMeasured");
+            sensorID->QueryIntText(&temp);
+            sensorNeighborIDs.push_back(temp);
+            sensorID = sensorID->NextSiblingElement("sensorID");
         }
 
-        curField = curField->NextSiblingElement("inputFile");
+        curField = curField->NextSiblingElement("master");
         XMLNullPointerCheck(curField);
-        curField->Accept(&printer);
-        inFile = getValue(printer.CStr());
-        printer.ClearBuffer();
+        curField->QueryIntText(&master);
 
-        curField = curField->NextSiblingElement("outputFile");
+        curField = curField->NextSiblingElement("isThisDevice");
         XMLNullPointerCheck(curField);
-        curField->Accept(&printer);
-        outFile = getValue(printer.CStr());
-        printer.ClearBuffer();        
+        curField->QueryIntText(&thisDevice);
 
-        curField = curField->NextSiblingElement("processOnCurDevice");
-        XMLNullPointerCheck(curField);
-        err = curField->QueryIntText(&processOnDevice);
-        XMLCheckResult(err);
+        curComputer = curComputer->NextSiblingElement("Computer");
 
-        curSensor = curSensor->NextSiblingElement("Sensor");
+        //Construct CPU and add it to list 
+        Computer * newComputer = new Computer(id, master, thisDevice, computerNeighborIDs, sensorNeighborIDs);
+        computers.push_back(*newComputer);
+        delete newComputer;
     }
 
-    //First compile lists of all sensors, all cpus, and fill out global constants
     //Then run initialization function on lists to set all of the more complex fields
     //Once all objects are well defined -- create syncrhonization functions
-    //Then run threads for all objects 
+    //Then run threads for all objects  
 
-
+    for (size_t ii = 0; ii < sensors.size(); ii++)
+    {
+        std::cout << "Hello from sensor: " << sizeof(sensors[ii]) << "\n";
+    }
+    for (size_t jj = 0; jj < computers.size(); jj++)
+    {
+        std::cout << "Hello from computer: " << sizeof(computers[jj].id) << "\n";
+    }
     return 0;
 }
 

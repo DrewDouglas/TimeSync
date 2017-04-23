@@ -23,7 +23,7 @@ Sensor::Sensor()
  */
 Sensor::Sensor(int _id, float _alphaFast, float _alphaSlow, float _frequency, 
 			   int _timestampPosition, std::string _inputFilename, std::string _outputFilename,
-			   std::vector<Computer *> _neighbors, std::vector<std::string> _valuesMeasured, int _processOnCurDevice)
+			   std::vector<int> _neighbors, std::vector<std::string> _valuesMeasured, int _processOnCurDevice)
 {
 	id = _id;
 	alphaFast = _alphaFast;
@@ -32,7 +32,7 @@ Sensor::Sensor(int _id, float _alphaFast, float _alphaSlow, float _frequency,
 	timestampPosition = _timestampPosition;
 	inputFilename = _inputFilename;
 	outputFilename = _outputFilename;
-	neighbors = _neighbors;
+	neighborIDs = _neighbors;
 	valuesMeasured = _valuesMeasured;
 	processOnCurDevice = _processOnCurDevice;
 }

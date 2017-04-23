@@ -15,11 +15,11 @@ Computer::Computer()
  * (Might initialize neighbors with separate function but we'll see)
  */
  Computer::Computer(int _id, int _master, int _isThisDevice, 
- 					std::vector<Computer *> _computerNeighbors, std::vector<Sensor *> _sensorNeighbors)
+ 					std::vector<int> _computerNeighbors, std::vector<int> _sensorNeighbors)
  {
  	id = _id;
  	master = _master;
  	isThisDevice = _isThisDevice;
- 	computerNeighbors = _computerNeighbors;
- 	sensorNeighbors = _sensorNeighbors;
+ 	computerNeighborIDs = _computerNeighbors;
+ 	sensorNeighborIDs = _sensorNeighbors;
  }
