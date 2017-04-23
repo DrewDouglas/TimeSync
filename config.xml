@@ -12,19 +12,19 @@
     <List itemCount="2">
         <Sensor>
             <id>1</id>
-            <list>
+            <List>
                 <computerID>1</computerID>
                 <computerID>2</computerID>
-            </list>
+            </List>
             <alphaFast>0.05</alphaFast>
             <alphaSlow>0.05</alphaSlow>
             <frequency>60</frequency>
             <timestampPosition>0</timestampPosition>
-            <list>
+            <List>
                 <valueMeasured>"xAcceleration"</valueMeasured>
                 <valueMeasured>"yAcceleration"</valueMeasured>
                 <valueMeasured>"zAcceleration"</valueMeasured>
-            </list>
+            </List>
             <inputFile>"sensor1_input"</inputFile>
             <outputFile>"sensor1_adjusted_times"</outputFile>
             <processOnCurDevice>1</processOnCurDevice>
@@ -32,19 +32,19 @@
 
         <Sensor>
             <id>2</id>
-            <list>
+            <List>
                 <computerID>1</computerID>
                 <computerID>2</computerID>
-            </list>
+            </List>
             <alphaFast>0.05</alphaFast>
             <alphaSlow>0.05</alphaSlow>
             <frequency>60</frequency>
             <timestampPosition>0</timestampPosition>
-            <list>
+            <List>
                 <valueMeasured>"xAcceleration"</valueMeasured>
                 <valueMeasured>"yAcceleration"</valueMeasured>
                 <valueMeasured>"zAcceleration"</valueMeasured>
-            </list>
+            </List>
             <inputFile>"sensor2_input"</inputFile>
             <outputFile>"sensor2_adjusted_times"</outputFile>
             <processOnCurDevice>1</processOnCurDevice>
@@ -55,28 +55,28 @@
     <List itemCount="2">
         <Computer>
             <id>1</id>
-            <list>
+            <List>
                 <computerID>2</computerID>
                 <computerID>3</computerID>
-            </list>
-            <list>
+            </List>
+            <List>
                 <sensorID>4</sensorID>
                 <sensorID>5</sensorID>
-            </list>
+            </List>
             <master>1</master>
             <isThisDevice>1</isThisDevice>
         </Computer>
 
         <Computer>
             <id>1</id>
-            <list>
+            <List>
                 <computerID>2</computerID>
                 <computerID>3</computerID>
-            </list>
-            <list>
+            </List>
+            <List>
                 <sensorID>4</sensorID>
                 <sensorID>5</sensorID>
-            </list>
+            </List>
             <master>1</master>
             <isThisDevice>1</isThisDevice>
         </Computer>

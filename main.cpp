@@ -10,7 +10,7 @@
 #endif
 
 #ifndef XMLNullPointerCheck
-    #define XMLNullPointerCheck(pointer) if (pointer == NULL) {return -1;}
+    #define XMLNullPointerCheck(pointer) if ((pointer) == NULL) {return -1;}
 #endif
 
 std::string getValue(std::string input)
@@ -46,6 +46,7 @@ int main()
     stateFilename = printer.CStr();
     stateFilename = getValue(stateFilename);
     printer.ClearBuffer();
+
     //Get the list of all state variables 
     listElement = listElement->NextSiblingElement("List");
     XMLNullPointerCheck(listElement);
@@ -58,31 +59,173 @@ int main()
         printer.ClearBuffer();
         stateVariable = stateVariable->NextSiblingElement("stateVar");
     }
-    std::cout << stateFilename << "\n";
-    std::cout << "\n";
-    for (int i = 0; i < stateVars.size(); i++)
-        std::cout << "State variables: " << stateVars[i] <<"\n";
-
-    /*
-
-    listElement = pRoot->FirstChildElement("List");
+    
+    //Read in the observability strength threshold values 
+    listElement = listElement->NextSiblingElement("unobservabilityIndexThreshold");
     XMLNullPointerCheck(listElement);
-    listElement = listElement->FirstChildElement("Sensor");
+    err = listElement->QueryFloatText(&unobservabilityIndexThreshold);
+    XMLCheckResult(err);
+
+    listElement = listElement->NextSiblingElement("conditionNumberThreshold");
     XMLNullPointerCheck(listElement);
+    err = listElement->QueryFloatText(&conditionNumberThreshold);
+    XMLCheckResult(err);
+
+    //Read in all of the sensor information
+    listElement = listElement->NextSiblingElement("List");
+    XMLNullPointerCheck(listElement);
+    XMLElement * curSensor = listElement->FirstChildElement("Sensor");
+    XMLNullPointerCheck(curSensor);
     XMLElement *curField;
+
     //Each listElement points to a sensor
-    while(listElement != NULL)
+    while(curSensor != NULL)
     {
+        int id, timestampPosition, processOnDevice, temp;
+        std::vector<int> neighborIDs;
+        float alphaFast, alphaSlow, frequency;
+        std::vector<std::string> valsMeasured;
+        std::string inFile, outFile;
 
-        int id;
-        curField = listElement->FirstChildElement("id");
+        curField = curSensor->FirstChildElement("id");
         XMLNullPointerCheck(curField);
-        err = curField->QueryIntText(&id);
+        curField->QueryIntText(&id);
 
+        curField = curField->NextSiblingElement("List");
+        XMLNullPointerCheck(curField);
+        XMLElement * cpuID = curField->FirstChildElement("computerID");
+        XMLNullPointerCheck(cpuID);
+        while(cpuID != NULL)
+        {
+            cpuID->QueryIntText(&temp);
+            neighborIDs.push_back(temp);
+            cpuID = cpuID->NextSiblingElement("computerID");
+        }
+
+        curField = curField->NextSiblingElement("alphaFast");
+        XMLNullPointerCheck(curField);
+        curField->QueryFloatText(&alphaFast);
+
+        curField = curField->NextSiblingElement("alphaSlow");
+        XMLNullPointerCheck(curField);
+        curField->QueryFloatText(&alphaSlow);
+
+        curField = curField->NextSiblingElement("frequency");
+        XMLNullPointerCheck(curField);
+        curField->QueryFloatText(&frequency);
+
+        curField = curField->NextSiblingElement("timestampPosition");
+        XMLNullPointerCheck(curField);
+        curField->QueryIntText(&timestampPosition);
+
+        curField = curField->NextSiblingElement("List");
+        XMLNullPointerCheck(curField);
+        XMLElement * valMeas = curField->FirstChildElement("valueMeasured");
+        XMLNullPointerCheck(valMeas);
+        while(valMeas != NULL)
+        {
+            valMeas->Accept(&printer);
+            valsMeasured.push_back(getValue(printer.CStr()));
+            printer.ClearBuffer();
+            valMeas = valMeas->NextSiblingElement("valueMeasured");
+        }
+
+        curField = curField->NextSiblingElement("inputFile");
+        XMLNullPointerCheck(curField);
+        curField->Accept(&printer);
+        inFile = getValue(printer.CStr());
+        printer.ClearBuffer();
+
+        curField = curField->NextSiblingElement("outputFile");
+        XMLNullPointerCheck(curField);
+        curField->Accept(&printer);
+        outFile = getValue(printer.CStr());
+        printer.ClearBuffer();        
+
+        curField = curField->NextSiblingElement("processOnCurDevice");
+        XMLNullPointerCheck(curField);
+        err = curField->QueryIntText(&processOnDevice);
         XMLCheckResult(err);
-        listElement = listElement->NextSiblingElement("Sensor");
+
+        curSensor = curSensor->NextSiblingElement("Sensor");
     }
-*/
+
+    //Read in all computer data
+    listElement = listElement->NextSiblingElement("List");
+    XMLNullPointerCheck(listElement);
+    XMLElement * curComputer = listElement->FirstChildElement("Computer");
+    XMLNullPointerCheck(curComputer);
+//Go through and change everything to be correct to computer and not sensor 
+    while(curSensor != NULL)
+    {
+        int id, timestampPosition, processOnDevice, temp;
+        std::vector<int> neighborIDs;
+        float alphaFast, alphaSlow, frequency;
+        std::vector<std::string> valsMeasured;
+        std::string inFile, outFile;
+
+        curField = curSensor->FirstChildElement("id");
+        XMLNullPointerCheck(curField);
+        curField->QueryIntText(&id);
+
+        curField = curField->NextSiblingElement("List");
+        XMLNullPointerCheck(curField);
+        XMLElement * cpuID = curField->FirstChildElement("computerID");
+        XMLNullPointerCheck(cpuID);
+        while(cpuID != NULL)
+        {
+            cpuID->QueryIntText(&temp);
+            neighborIDs.push_back(temp);
+            cpuID = cpuID->NextSiblingElement("computerID");
+        }
+
+        curField = curField->NextSiblingElement("alphaFast");
+        XMLNullPointerCheck(curField);
+        curField->QueryFloatText(&alphaFast);
+
+        curField = curField->NextSiblingElement("alphaSlow");
+        XMLNullPointerCheck(curField);
+        curField->QueryFloatText(&alphaSlow);
+
+        curField = curField->NextSiblingElement("frequency");
+        XMLNullPointerCheck(curField);
+        curField->QueryFloatText(&frequency);
+
+        curField = curField->NextSiblingElement("timestampPosition");
+        XMLNullPointerCheck(curField);
+        curField->QueryIntText(&timestampPosition);
+
+        curField = curField->NextSiblingElement("List");
+        XMLNullPointerCheck(curField);
+        XMLElement * valMeas = curField->FirstChildElement("valueMeasured");
+        XMLNullPointerCheck(valMeas);
+        while(valMeas != NULL)
+        {
+            valMeas->Accept(&printer);
+            valsMeasured.push_back(getValue(printer.CStr()));
+            printer.ClearBuffer();
+            valMeas = valMeas->NextSiblingElement("valueMeasured");
+        }
+
+        curField = curField->NextSiblingElement("inputFile");
+        XMLNullPointerCheck(curField);
+        curField->Accept(&printer);
+        inFile = getValue(printer.CStr());
+        printer.ClearBuffer();
+
+        curField = curField->NextSiblingElement("outputFile");
+        XMLNullPointerCheck(curField);
+        curField->Accept(&printer);
+        outFile = getValue(printer.CStr());
+        printer.ClearBuffer();        
+
+        curField = curField->NextSiblingElement("processOnCurDevice");
+        XMLNullPointerCheck(curField);
+        err = curField->QueryIntText(&processOnDevice);
+        XMLCheckResult(err);
+
+        curSensor = curSensor->NextSiblingElement("Sensor");
+    }
 
     //First compile lists of all sensors, all cpus, and fill out global constants
     //Then run initialization function on lists to set all of the more complex fields
