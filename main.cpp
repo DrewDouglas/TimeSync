@@ -65,7 +65,19 @@ void initializeObjects(std::vector<Sensor> sensors, std::vector<Computer> comput
             if (i != j)
             {
                 //Compare the variables measured by each pair of sensor to fill out sharedMeasurements 
-                
+                for (size_t m = 0; m < sensors[i].valuesMeasured.size(); m++)
+                {
+                    std::string firstSensorVal = sensors[i].valuesMeasured[m];
+                    for (size_t n = 0; n < sensors[j].valuesMeasured.size(); n++)
+                    {
+                        std::string secondSensorVal = sensors[j].valuesMeasured[n];
+                        //Found a shared variable between sensors 
+                        if (firstSensorVal == secondSensorVal)
+                        {
+                            sensors[i].sharedMeasurements.push_back(std::make_tuple(m, &sensors[j], n, -100.0));
+                        }
+                    }
+                }
             }
         }
     }
@@ -263,7 +275,7 @@ int main()
     //Then run initialization function on lists to set all of the more complex fields
     //Once all objects are well defined -- create syncrhonization functions
     //Then run threads for all objects  
-
+    initializeObjects(sensors, computers);
     for (size_t ii = 0; ii < sensors.size(); ii++)
     {
         std::cout << "Hello from sensor: " << sizeof(sensors[ii]) << "\n";
