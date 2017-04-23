@@ -272,18 +272,12 @@ int main()
         delete newComputer;
     }
 
-    //Then run initialization function on lists to set all of the more complex fields
     //Once all objects are well defined -- create syncrhonization functions
     //Then run threads for all objects  
     initializeObjects(sensors, computers);
-    for (size_t ii = 0; ii < sensors.size(); ii++)
-    {
-        std::cout << "Hello from sensor: " << sizeof(sensors[ii]) << "\n";
-    }
-    for (size_t jj = 0; jj < computers.size(); jj++)
-    {
-        std::cout << "Hello from computer: " << sizeof(computers[jj].id) << "\n";
-    }
+
+    //All objects are initialized -- launch threads for each sensor, computer, and one for main
+
     return 0;
 }
 
