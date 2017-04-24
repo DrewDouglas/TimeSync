@@ -280,6 +280,8 @@ int main()
     initializeObjects(sensors, computers);
 
     //Each sensor needs a mutex to protect its data buffer 
+    //Actually this might not be true -- only need a thread for each sensor actually connected to this computer
+    //Only launch the minimum number of threads and create minimum number of mutexes
     std::vector<std::mutex> mutexes(sensors.size());
     for (size_t i = 0; i < sensors.size(); i++)
     {
@@ -288,6 +290,15 @@ int main()
     //H
     std::mutex unobsIdxMutex;
     std::mutex conditionNumMutex;
+
+//TODO:
+    //Write sensor functions
+    //Write computer functions
+    //Think about who should be writing the sensor adjusted data -- want it all in relation to master host time
+    //Figure out how obs calculations go 
+
+    //Come up with test cases later 
+
     return 0;
 }
 

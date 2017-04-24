@@ -22,10 +22,9 @@ public:
 	std::vector<int> sensorNeighborIDs;
 	int master;
 	int isThisDevice;
-	//Clock params from olson's paper
 	std::vector<float> times;
 	std::vector<float> offsets;
-	std::vector<float> drift; //?
+	std::vector<float> drift;
 
 private:
 

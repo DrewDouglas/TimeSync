@@ -12,7 +12,6 @@ Computer::Computer()
 
 /*
  * Parameterized constructor
- * (Might initialize neighbors with separate function but we'll see)
  */
  Computer::Computer(int _id, int _master, int _isThisDevice, 
  					std::vector<int> _computerNeighbors, std::vector<int> _sensorNeighbors)
