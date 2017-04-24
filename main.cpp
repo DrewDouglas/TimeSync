@@ -4,6 +4,8 @@
 #include "sensor.h"
 #include "computer.h"
 #include "tinyxml2.h"
+#include <thread>
+#include <mutex>
 
 #ifndef XMLCheckResult
     #define XMLCheckResult(a_eResult) if (a_eResult != XML_SUCCESS) { printf("Error processing XML file: %i\n", a_eResult); return a_eResult; }
@@ -85,12 +87,15 @@ void initializeObjects(std::vector<Sensor> sensors, std::vector<Computer> comput
 
 int main()
 {
-    //All values that should be read in from the xml file 
+//NOTE: may want a global state update frequency 
+
     std::vector<Sensor> sensors;
     std::vector<Computer> computers;
     std::vector<std::string> stateVars;
     float unobservabilityIndexThreshold;
     float conditionNumberThreshold;
+    float unobservabilityIndex;
+    float conditionNumber;
 
     /************ Load in config file and populate objects ********************/
     using namespace tinyxml2;
@@ -272,12 +277,17 @@ int main()
         delete newComputer;
     }
 
-    //Once all objects are well defined -- create syncrhonization functions
-    //Then run threads for all objects  
     initializeObjects(sensors, computers);
 
-    //All objects are initialized -- launch threads for each sensor, computer, and one for main
-
+    //Each sensor needs a mutex to protect its data buffer 
+    std::vector<std::mutex> mutexes(sensors.size());
+    for (size_t i = 0; i < sensors.size(); i++)
+    {
+        sensors[i].mu = &mutexes[i];
+    }
+    //H
+    std::mutex unobsIdxMutex;
+    std::mutex conditionNumMutex;
     return 0;
 }
 

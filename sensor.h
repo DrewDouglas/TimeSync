@@ -3,6 +3,7 @@
 #include <cstdlib>
 #include <vector>
 #include <tuple>
+#include <mutex>
 
 class Computer;
 
@@ -33,10 +34,7 @@ public:
 	std::string inputFilename;
 	std::string outputFilename;
 	std::vector<std::tuple<int,Sensor *,int, float>> sharedMeasurements;
-
-
-//NOTE -- need to place restrictions on inputFile and outputFile based on the local cpu
-//Assume that each cpu has runs their 
+	std::mutex *mu;
 
 private:
 
