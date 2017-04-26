@@ -36,3 +36,18 @@ Sensor::Sensor(int _id, float _alphaFast, float _alphaSlow, float _frequency,
 	valuesMeasured = _valuesMeasured;
 	processOnCurDevice = _processOnCurDevice;
 }
+
+void Sensor::computeOffset()
+{
+//	std::vector<std::tuple<int,Sensor *,int, float>> sharedMeasurements;
+//sharedMeasurements - list of tuples of (my data column index, other sensor pointer, other data column index, time offset between streams) - used to compute the phase between measurements of same quantities 
+	for (size_t i = 0; i < this->sharedMeasurements.size(); i++)
+	{
+		std::tuple<int, Sensor *, int, float> cur = this->sharedMeasurements[i];
+	}
+}
+
+static float offsetHelper(std::vector<float> &dataBuffer1, int col1, std::vector<float> &dataBuffer2, int col2)
+{
+	return 0.0;
+}

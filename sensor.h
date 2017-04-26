@@ -15,6 +15,7 @@ public:
 	Sensor(int _id, float _alphaFast, float _alphaSlow, float _frequency, 
 			   int _timestampPosition, std::string _inputFilename, std::string _outputFilename,
 			   std::vector<int> _neighbors, std::vector<std::string> _valuesMeasured, int _processOnCurDevice);
+	void computeOffset();
 
 	int id;
 	std::vector<Computer *> neighbors;
@@ -37,6 +38,8 @@ public:
 	std::mutex *mu;
 
 private:
+
+static float offsetHelper(std::vector<float> &dataBuffer1, int col1, std::vector<float> &dataBuffer2, int col2);
 
 /*
 Explanation of variables:
