@@ -44,10 +44,9 @@ void Sensor::computeOffset()
 	for (size_t i = 0; i < this->sharedMeasurements.size(); i++)
 	{
 		std::tuple<int, Sensor *, int, float> cur = this->sharedMeasurements[i];
+		//Calculate discrete cross correlation using alglib
+		//Find maximum value -> gives time delay between streams
+		//(See about handling interpolation if necessary -- likely use similar approach to simulation with linear approx.)
 	}
 }
 
-static float offsetHelper(std::vector<float> &dataBuffer1, int col1, std::vector<float> &dataBuffer2, int col2)
-{
-	return 0.0;
-}

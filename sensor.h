@@ -39,7 +39,6 @@ public:
 
 private:
 
-static float offsetHelper(std::vector<float> &dataBuffer1, int col1, std::vector<float> &dataBuffer2, int col2);
 
 /*
 Explanation of variables:
