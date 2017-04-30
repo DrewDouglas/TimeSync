@@ -92,10 +92,10 @@ int main()
     std::vector<Sensor> sensors;
     std::vector<Computer> computers;
     std::vector<std::string> stateVars;
-    float unobservabilityIndexThreshold;
-    float conditionNumberThreshold;
-    float unobservabilityIndex;
-    float conditionNumber;
+    double unobservabilityIndexThreshold;
+    double conditionNumberThreshold;
+    double unobservabilityIndex;
+    double conditionNumber;
 
     /************ Load in config file and populate objects ********************/
     using namespace tinyxml2;
@@ -131,12 +131,12 @@ int main()
     //Read in the observability strength threshold values 
     listElement = listElement->NextSiblingElement("unobservabilityIndexThreshold");
     XMLNullPointerCheck(listElement);
-    err = listElement->QueryFloatText(&unobservabilityIndexThreshold);
+    err = listElement->QueryDoubleText(&unobservabilityIndexThreshold);
     XMLCheckResult(err);
 
     listElement = listElement->NextSiblingElement("conditionNumberThreshold");
     XMLNullPointerCheck(listElement);
-    err = listElement->QueryFloatText(&conditionNumberThreshold);
+    err = listElement->QueryDoubleText(&conditionNumberThreshold);
     XMLCheckResult(err);
 
     //Read in all of the sensor information
@@ -151,7 +151,7 @@ int main()
     {
         int id, timestampPosition, processOnDevice, temp;
         std::vector<int> neighborIDs;
-        float alphaFast, alphaSlow, frequency;
+        double alphaFast, alphaSlow, frequency;
         std::vector<std::string> valsMeasured;
         std::string inFile, outFile;
 
@@ -172,15 +172,15 @@ int main()
 
         curField = curField->NextSiblingElement("alphaFast");
         XMLNullPointerCheck(curField);
-        curField->QueryFloatText(&alphaFast);
+        curField->QueryDoubleText(&alphaFast);
 
         curField = curField->NextSiblingElement("alphaSlow");
         XMLNullPointerCheck(curField);
-        curField->QueryFloatText(&alphaSlow);
+        curField->QueryDoubleText(&alphaSlow);
 
         curField = curField->NextSiblingElement("frequency");
         XMLNullPointerCheck(curField);
-        curField->QueryFloatText(&frequency);
+        curField->QueryDoubleText(&frequency);
 
         curField = curField->NextSiblingElement("timestampPosition");
         XMLNullPointerCheck(curField);

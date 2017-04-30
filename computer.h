@@ -22,9 +22,9 @@ public:
 	std::vector<int> sensorNeighborIDs;
 	int master;
 	int isThisDevice;
-	std::vector<float> times;
-	std::vector<float> offsets;
-	std::vector<float> drift;
+	std::vector<double> times;
+	std::vector<double> offsets;
+	std::vector<double> drift;
 
 private:
 

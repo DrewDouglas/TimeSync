@@ -12,7 +12,7 @@ class Sensor
 
 public:
 	Sensor();
-	Sensor(int _id, float _alphaFast, float _alphaSlow, float _frequency, 
+	Sensor(int _id, double _alphaFast, double _alphaSlow, double _frequency, 
 			   int _timestampPosition, std::string _inputFilename, std::string _outputFilename,
 			   std::vector<int> _neighbors, std::vector<std::string> _valuesMeasured, int _processOnCurDevice);
 	void computeOffset();
@@ -20,21 +20,21 @@ public:
 	int id;
 	std::vector<Computer *> neighbors;
 	std::vector<int> neighborIDs;
-	float alphaFast;
-	float alphaSlow;
-	std::vector<float> sensorTimes;
+	double alphaFast;
+	double alphaSlow;
+	std::vector<double> sensorTimes;
 	int messageCount;
-	float frequency;
-	std::vector<float> hostRecievedTimes;
-	std::vector<float> offsets;
-	std::vector<float> drifts; //?
+	double frequency;
+	std::vector<double> hostRecievedTimes;
+	std::vector<double> offsets;
+	std::vector<double> drifts; //?
 	int timestampPosition;
 	std::vector<std::string> valuesMeasured;
-	std::vector<float> dataBuffer;
+	std::vector<double> dataBuffer;
 	int processOnCurDevice;
 	std::string inputFilename;
 	std::string outputFilename;
-	std::vector<std::tuple<int,Sensor *,int, float>> sharedMeasurements;
+	std::vector<std::tuple<int,Sensor *,int, double>> sharedMeasurements;
 	std::mutex *mu;
 
 private:
